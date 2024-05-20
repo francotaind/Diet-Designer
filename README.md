@@ -1,6 +1,6 @@
 # DietDesigner
 
-NutriPlanner is a web application designed to help users create personalized meal plans, get recipe ideas, and access nutritional facts based on various ingredients. Built using Django for the backend and HTML/CSS/JavaScript for the frontend, NutriPlanner aims to promote healthy eating and simplify meal planning.
+DietDesigner is a web application designed to help users create personalized meal plans, get recipe ideas, and access nutritional facts based on various ingredients. Built using Django for the backend and HTML/CSS/JavaScript for the frontend, DietDesigner aims to promote healthy eating and simplify meal planning.
 
 ## Table of Contents
 - [Features](#features)
@@ -29,7 +29,7 @@ NutriPlanner is a web application designed to help users create personalized mea
 
 ### Prerequisites
 - Python 3.8.10
-- Django 3.
+- Django 
 
 ### Backend Setup
 1. Clone the repository:
