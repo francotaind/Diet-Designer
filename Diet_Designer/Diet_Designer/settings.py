@@ -25,12 +25,16 @@ SECRET_KEY = 'django-insecure-p$2+_=-9ed!kp2vq(loq(f%@*k!x)9l)+)@pr$qmyoe)bo95b4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = 'login'
 
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts',
+    'mealplan',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
