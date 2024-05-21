@@ -5,11 +5,27 @@
 </head>
 <body>
     <h2>Login</h2>
-    <form method="POST">
+    <form method="POST" action="{% url 'login' %}">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        {% if error %}
+            <div style="color: red;">
+                {{ error }}
+            </div>
+        {% endif %}
+        <div>
+            <button type="submit">Login</button>
+        </div>
+        <div>
+            <p>Don't have an account? <a href="{% url 'signup' %}">Sign up here</a></p>
+        </div>
     </form>
 </body>
 </html>
-
