@@ -1,0 +1,12 @@
+
+
+{% block content %}
+  <h2>Meal Plan for {{ meal_plan.date }} - {{ meal_plan.meal_type }}</h2>
+  <ul>
+    {% for recipe in meal_plan.recipes.all %}
+      <li>{{ recipe.name }}</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'create_meal_plan' %}">Create another meal plan</a>
+{% endblock %}
+

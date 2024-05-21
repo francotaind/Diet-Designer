@@ -1,0 +1,12 @@
+
+
+{% block content %}
+  <h2>Ingredients List</h2>
+  <ul>
+    {% for ingredient in ingredients %}
+      <li>{{ ingredient.name }} - {{ ingredient.quantity }}</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'add_ingredient' %}">Add another ingredient</a>
+{% endblock %}
+
