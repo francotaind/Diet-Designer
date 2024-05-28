@@ -1,6 +1,5 @@
 from django.shortcuts import render
 # meals/views.py
-
 from django.shortcuts import render, redirect
 from .models import Ingredient, Recipe, MealPlan
 from .forms import IngredientForm, MealPlanForm
