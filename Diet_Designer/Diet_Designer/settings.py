@@ -40,6 +40,7 @@ LOGIN_URL = 'login'
 # Application definition
 
 INSTALLED_APPS = [
+    'recipe',
     'mathfilters',
     'counter',
     'accounts',

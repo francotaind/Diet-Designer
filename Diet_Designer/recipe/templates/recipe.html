@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Search</title>
+    <!-- Add your CSS links here, e.g., Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Recipe Search</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="input-group input-group-lg mb-5">
+                <input type="text" name="query" class="form-control inputstyle"
+                placeholder="Search for your best Recipes..." required>
+                <button class="btn btn-primary" type="submit"
+                    id="button-addon2">Find Recipes</button>
+            </div>
+        </form>
+        
+        {% if api %}
+            <div class="results">
+                {% if api == "oops! There was an error" %}
+                    <p>{{ api }}</p>
+                {% else %}
+                    <div class="list-group">
+                        {% for item in api %}
+                            <div class="list-group-item">
+                                <h4 class="list-group-item-heading">{{ item.title }}</h4>
+                                <p><strong>Ingredients:</strong> {{ item.ingredients }}</p>
+                                <p><strong>Servings:</strong> {{ item.servings }}</p>
+                                <p><strong>Instructions:</strong> {{ item.instructions }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+    <!-- Add your JavaScript links here, e.g., Bootstrap JS, custom JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
