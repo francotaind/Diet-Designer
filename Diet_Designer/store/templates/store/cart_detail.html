@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'store/styles.css' %}">
+</head>
+<body>
+    <h1>Shopping Cart</h1>
+    <div class="cart-items">
+        {% for item in cart_items %}
+            <div class="cart-item">
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                <h2>{{ item.product.name }}</h2>
+                <p>Quantity: {{ item.quantity }}</p>
+                <p>Price: ksh{{ item.product.price }}</p>
+                <p>Total: ksh{{ item.total_price }}</p>
+                <form action="{% url 'remove_from_cart' item.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Remove</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'product_list' %}">Continue Shopping</a>
+</body>
+</html>
+

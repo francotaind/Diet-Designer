@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password, check_password
 from .models import Customer
 from django.views import View
+from django.shortcuts import redirect
 
 # The sign up view
 class Signup(View):
@@ -45,7 +46,7 @@ class Signup(View):
             'error': error_message,
             'values': value
         }
-        return render(request, 'signup.html', data)
+        return render(request, 'accounts/signup.html', data)
 
     def validateCustomer(self, customer):
         error_message = None
@@ -71,15 +72,14 @@ class Signup(View):
 
 # The log in view
 class Login(View):
-    return_url = None
-
     def get(self, request):
-        Login.return_url = request.GET.get('return_url')
-        return render(request, 'accounts/login.html')
+        next_url = request.GET.get('next', '')
+        return render(request, 'accounts/login.html', {'next': next_url})
 
     def post(self, request):
         email = request.POST.get('email')
         password = request.POST.get('password')
+        next_url = request.POST.get('next', '')
         customer = Customer.get_customer_by_email(email)
         error_message = None
 
@@ -87,18 +87,16 @@ class Login(View):
             flag = check_password(password, customer.password)
             if flag:
                 request.session['customer'] = customer.id
-
-                if Login.return_url:
-                    return redirect(Login.return_url)
+                if next_url:
+                    return redirect(next_url)
                 else:
-                    Login.return_url = None
                     return redirect('homepage')
             else:
                 error_message = 'Invalid email or password'
         else:
             error_message = 'Invalid email or password'
 
-        return render(request, 'login.html', {'error': error_message})
+        return render(request, 'accounts/login.html', {'error': error_message, 'next': next_url})
 
 # The logout view
 def logout(request):
@@ -113,3 +111,18 @@ class Homepage(View):
         if customer_id:
             customer = Customer.objects.get(id=customer_id)
         return render(request, 'base.html', {'customer': customer})
+
+
+def shift_view(request):
+    # Example logic to decide which app to redirect to
+    if 'meals' in request.GET:
+        return redirect('meals_index')
+    elif 'recipes' in request.GET:
+        return redirect('recipes_index')
+    elif 'store' in request.GET:
+        return redirect('store_index')
+    elif 'accounts' in request.GET:
+        return redirect('login')
+    else:
+        # Default redirect if no valid parameter is provided
+        return redirect('homepage')
