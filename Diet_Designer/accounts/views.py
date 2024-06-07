@@ -1,128 +1,24 @@
+from typing import Required
 from django.shortcuts import render, redirect
-from django.contrib.auth.hashers import make_password, check_password
-from .models import Customer
-from django.views import View
-from django.shortcuts import redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
-# The sign up view
-class Signup(View):
-    def get(self, request):
-        return render(request, 'accounts/signup.html')
-
-    def post(self, request):
-        postData = request.POST
-        first_name = postData.get('firstname')
-        last_name = postData.get('lastname')
-        phone = postData.get('phone')
-        email = postData.get('email')
-        password = postData.get('password')
-        confirm_password = postData.get('confirmpassword')
-
-        # Validation
-        value = {
-            'first_name': first_name,
-            'last_name': last_name,
-            'phone': phone,
-            'email': email
-        }
-        error_message = None
-
-        if password != confirm_password:
-            error_message = 'Passwords do not match'
+def login_user(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
         else:
-            customer = Customer(first_name=first_name,
-                                last_name=last_name,
-                                phone=phone,
-                                email=email,
-                                password=password)
-            error_message = self.validateCustomer(customer)
-
-            if not error_message:
-                customer.password = make_password(customer.password)
-                customer.register()
-                return redirect('homepage')
-
-        data = {
-            'error': error_message,
-            'values': value
-        }
-        return render(request, 'accounts/signup.html', data)
-
-    def validateCustomer(self, customer):
-        error_message = None
-        if not customer.first_name:
-            error_message = "Please Enter your First Name !!"
-        elif len(customer.first_name) < 3:
-            error_message = 'First Name must be 3 char long or more'
-        elif not customer.last_name:
-            error_message = 'Please Enter your Last Name'
-        elif len(customer.last_name) < 3:
-            error_message = 'Last Name must be 3 char long or more'
-        elif not customer.phone:
-            error_message = 'Enter your Phone Number'
-        elif len(customer.phone) < 10:
-            error_message = 'Phone Number must be 10 char Long'
-        elif len(customer.password) < 5:
-            error_message = 'Password must be 5 char long'
-        elif len(customer.email) < 5:
-            error_message = 'Email must be 5 char long'
-        elif customer.isExists():
-            error_message = 'Email Address Already Registered..'
-        return error_message
-
-# The log in view
-class Login(View):
-    def get(self, request):
-        next_url = request.GET.get('next', '')
-        return render(request, 'accounts/login.html', {'next': next_url})
-
-    def post(self, request):
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        next_url = request.POST.get('next', '')
-        customer = Customer.get_customer_by_email(email)
-        error_message = None
-
-        if customer:
-            flag = check_password(password, customer.password)
-            if flag:
-                request.session['customer'] = customer.id
-                if next_url:
-                    return redirect(next_url)
-                else:
-                    return redirect('homepage')
-            else:
-                error_message = 'Invalid email or password'
-        else:
-            error_message = 'Invalid email or password'
-
-        return render(request, 'accounts/login.html', {'error': error_message, 'next': next_url})
-
-# The logout view
-def logout(request):
-    request.session.clear()
-    return redirect('homepage')
-
-# The homepage view
-class Homepage(View):
-    def get(self, request):
-        customer_id = request.session.get('customer')
-        customer = None
-        if customer_id:
-            customer = Customer.objects.get(id=customer_id)
-        return render(request, 'base.html', {'customer': customer})
-
-
-def shift_view(request):
-    # Example logic to decide which app to redirect to
-    if 'meals' in request.GET:
-        return redirect('meals_index')
-    elif 'recipes' in request.GET:
-        return redirect('recipes_index')
-    elif 'store' in request.GET:
-        return redirect('store_index')
-    elif 'accounts' in request.GET:
-        return redirect('login')
+            messages.success(request, ("Incorrect password or Username "))
+            return redirect('login')
     else:
-        # Default redirect if no valid parameter is provided
-        return redirect('homepage')
+        return render(request, 'authentication/login.html', {})
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, ("You were logged out "))
+    return redirect('home')
+

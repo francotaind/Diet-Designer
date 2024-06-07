@@ -34,18 +34,19 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-LOGIN_URL = '/accounts/login/'
+LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 # Application definition
 
 INSTALLED_APPS = [
+    'hub',
+    'accounts',
     'store',
     'recipe',
     'mathfilters',
     'counter',
-    'accounts',
     'meals',
     'django.contrib.admin',
     'django.contrib.auth',

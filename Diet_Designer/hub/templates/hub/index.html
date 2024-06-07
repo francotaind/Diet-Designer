@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diet Designer</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Diet Designer</h1>
+        <p>Your ultimate solution for meal planning, recipes, and calorie counting.</p>
+    </header>
+    <main>
+        <section id="features">
+            <div class="feature">
+                <h2>Meal Planning</h2>
+                <p>Plan your meals efficiently with our intuitive meal planner. Customize your diet to suit your lifestyle and dietary needs.</p>
+            </div>
+            <div class="feature">
+                <h2>Recipe Finder</h2>
+                <p>Discover new recipes based on your preferences and dietary restrictions. Enjoy a diverse range of healthy and delicious options.</p>
+            </div>
+            <div class="feature">
+                <h2>Calorie Counter</h2>
+                <p>Keep track of your calorie intake easily with our integrated calorie counter. Achieve your fitness goals by staying informed.</p>
+            </div>
+            <div class="feature">
+                 <h2>Spice Store</h2>
+                 <p>Discover top of the range spices and ingredients in our one
+                 stop store. Best prices in town</p>
+            </div>
+        </section>
+        <section id="apps">
+            <button onclick="window.location.href='#meal-planner'">Meal Planner</button>
+            <button onclick="window.location.href='{% url 'recipe' %}'">Recipe Finder</button>
+            <button onclick="window.location.href='{% url 'home'%}'">Calorie Counter</button>
+            <button onclick="window.location.href='{% url 'product_list' %}'">spice
+                store</button>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Diet Designer. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+
