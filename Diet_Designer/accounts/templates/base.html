@@ -69,6 +69,7 @@
         <h1>Welcome to the Homepage</h1>
         {% if customer %}
             <p>Hello, {{ customer.first_name }}!</p>
+            <a href="{% url 'product_list' %}">store</a>
             <form method="POST" action="{% url 'logout' %}">
                 {% csrf_token %}
                 <button type="submit">Logout</button>
